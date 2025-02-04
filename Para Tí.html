@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Serás mi San Valentín?</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffcccc;
+            overflow: hidden;
+        }
+        #game, #finalMessage {
+            display: none;
+        }
+        .heart {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .heart:hover {
+            transform: scale(1.2);
+        }
+        #buttons {
+            margin-top: 20px;
+        }
+        #background {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <img id="background" src="https://i.gifer.com/IoHY.gif" alt="background">
+    <h1>Presiona el botón para comenzar</h1>
+    <button onclick="startGame()">Iniciar</button>
+    
+    <div id="game">
+        <p>¡Atrapa los corazones!</p>
+    </div>
+    
+    <div id="finalMessage">
+        <h2>¿Quieres ser mi San Valentín? ❤️</h2>
+        <div id="buttons">
+            <button onclick="accept()">Sí</button>
+            <button id="noButton" onmouseover="moveNoButton()">No</button>
+        </div>
+        <img src="https://i.gifer.com/IoHY.gif" alt="happy cat heart" width="200">
+    </div>
+    
+    <script>
+        let backgrounds = [
+            "https://i.gifer.com/IoHY.gif",
+            "https://png.pngtree.com/background/20220725/original/pngtree-happy-valentines-day-with-couple-cats-black-and-white-colors-picture-image_1773004.jpg",
+            "https://static.vecteezy.com/system/resources/previews/002/156/868/non_2x/couple-cats-fall-in-love-in-valentine-s-day-cartoon-illustration-vector.jpg"
+        ];
+        let bgIndex = 0;
+
+        function changeBackground() {
+            bgIndex = (bgIndex + 1) % backgrounds.length;
+            document.getElementById("background").src = backgrounds[bgIndex];
+        }
+        setInterval(changeBackground, 4000);
+
+        function startGame() {
+            document.querySelector("h1").style.display = "none";
+            document.querySelector("button").style.display = "none";
+            document.getElementById("game").style.display = "block";
+            spawnHearts(5);
+        }
+
+        function spawnHearts(count) {
+            for (let i = 0; i < count; i++) {
+                let heart = document.createElement("img");
+                heart.src = "https://cdn-icons-png.flaticon.com/512/2589/2589175.png";
+                heart.className = "heart";
+                heart.style.left = Math.random() * (window.innerWidth - 60) + "px";
+                heart.style.top = Math.random() * (window.innerHeight - 60) + "px";
+                heart.onclick = () => {
+                    heart.remove();
+                    if (document.querySelectorAll(".heart").length === 0) {
+                        showFinalMessage();
+                    }
+                };
+                document.getElementById("game").appendChild(heart);
+            }
+        }
+
+        function showFinalMessage() {
+            document.getElementById("game").style.display = "none";
+            document.getElementById("finalMessage").style.display = "block";
+        }
+
+        function accept() {
+            alert("¡Sabía que dirías que sí! ❤️");
+        }
+
+        function moveNoButton() {
+            let noButton = document.getElementById("noButton");
+            noButton.style.position = "absolute";
+            noButton.style.left = Math.random() * (window.innerWidth - 100) + "px";
+            noButton.style.top = Math.random() * (window.innerHeight - 50) + "px";
+        }
+    </script>
+</body>
+</html>
